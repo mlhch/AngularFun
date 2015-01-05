@@ -53,16 +53,40 @@
 				display: block;
 			}
 		</style>
-	</head>
-	<body ng-cloak class="ng-cloak">
-		<ng:view></ng:view>
-		<!--ng:include src="'/views/site.html'"></ng:include-->
-		Hello My Angular!
 
 		<% if (config.environment && config.environment === 'prod') { %>
-			<script src="<%= config.getHashedFile('./.temp/scripts/scripts.min.js', {trim: './.temp'}) %>"></script>
+			<script src="scripts/libs/jquery.min.js"></script>
+			<script>
+				$(document).bind('mobileinit', function () {
+					$.mobile.autoInitializePage = false;
+					$.mobile.defaultPageTransition = 'none';
+				})
+			</script>
+			<script src="<%= config.getHashedFile('./.temp/scripts/scripts.min.js', {trim: './.temp/'}) %>"></script>
 		<% } else { %>
-			<script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
+			<script src="scripts/libs/jquery.min.js"></script>
+			<script data-main="scripts/main.js" src="scripts/libs/require.js"></script>
+			<script>
+				require.config({waitSeconds: 0});
+				define('jquery', [], function () { return $; });
+				$(document).bind('mobileinit', function () {
+					$.mobile.autoInitializePage = false;
+					$.mobile.defaultPageTransition = 'none';
+				});
+			</script>
 		<% } %>
+	</head>
+	<body ng-cloak ng-controller="MainCtrl" class="ng-cloak">
+		<div data-role="page" id="main">
+			<div data-role="header">
+				<h1>Header</h1>
+			</div>
+			<div data-role="content">
+				Hello My AngularFun + jQuery Mobile!
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<a data-role="button" data-inline="false">Footer</a>
+			</div>
+		</div>
 	</body>
 </html>

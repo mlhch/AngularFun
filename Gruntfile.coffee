@@ -140,6 +140,7 @@ module.exports = (grunt) ->
 						'index.html'
 						'scripts/ie.min.*.js'
 						'scripts/scripts.min.*.js'
+						'scripts/libs/jquery.min.js' ## in order to manually load then bind 'mobileinit' event
 						'styles/styles.min.*.css'
 					]
 					dest: '<%= settings.distDirectory %>'
@@ -333,7 +334,9 @@ module.exports = (grunt) ->
 					uglify:
 						# Let uglifier replace variables to further reduce file size
 						no_mangle: false
-					useStrict: true
+					## To avoid error: Cannot use 'in' operator to search for 'onhashchange' in undefined
+					## Because jquery.mobile wants 'this' point to window when running 'grunt prod'
+					#- useStrict: true
 					wrap:
 						start: '(function(){\'use strict\';'
 						end: '}).call(this);'
@@ -355,6 +358,7 @@ module.exports = (grunt) ->
 					'!libs/angular-animate.{coffee,js}'
 					'!libs/angular-route.{coffee,js}'
 					'!libs/html5shiv-printshiv.{coffee,js}'
+					'!libs/jquery.{,min.}js' ## in order to manually load then bind 'mobileinit' event
 					'!libs/json3.min.{coffee,js}'
 					'!libs/require.{coffee,js}'
 				]
@@ -376,6 +380,7 @@ module.exports = (grunt) ->
 					'!libs/angular-mocks.{coffee,js}'
 					'!libs/angular-route.{coffee,js}'
 					'!libs/html5shiv-printshiv.{coffee,js}'
+					'!libs/jquery.{,min.}js' ## in order to manually load then bind 'mobileinit' event
 					'!libs/json3.min.{coffee,js}'
 					'!libs/require.{coffee,js}'
 					'!backend/**/*.*'
