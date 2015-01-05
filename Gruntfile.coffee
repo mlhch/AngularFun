@@ -164,6 +164,26 @@ module.exports = (grunt) ->
 				expand: true
 			styles: '.temp/styles/styles.min.css'
 
+		bust:
+			images:
+				files: [
+					expand: true
+					# set to the relative dir to match like 'background: url(images/ajax-loader.gif);'
+					cwd: '.temp/styles'
+					src: ['images/**/*.{png,gif}']
+					dest: '.temp/styles'
+					replaceIn:
+						files: ['.temp/styles/styles.min.css']
+				,
+					expand: true
+					# set to the relative dir to match like '<img src="images/logo.png" />'
+					cwd: '.temp'
+					src: ['images/**/*.{png,gif}']
+					dest: '.temp'
+					replaceIn:
+						files: ['.temp/**/*.html']
+				]
+
 		# Compresses png files
 		imagemin:
 			images:
@@ -638,10 +658,11 @@ module.exports = (grunt) ->
 		'ngClassify'
 		'coffee:app'
 		'imagemin'
-		'hash:images'
+		# 'hash:images' ## since we use bust:images
 		'stylus' ## 'less'
 		'requirejs'
 		'uglify'
+		'bust:images'
 		'hash:scripts'
 		'hash:styles'
 		'template:index'
