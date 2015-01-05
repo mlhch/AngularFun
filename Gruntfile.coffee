@@ -233,6 +233,16 @@ module.exports = (grunt) ->
 				files:
 					'.temp/styles/styles.css': '.temp/styles/styles.less'
 
+		stylus:
+			dev:
+				options:
+					compress: false
+				expand: true,
+				cwd: '<%= settings.srcDirectory %>/styles/',
+				src: '*.styl',
+				dest: '<%= settings.tempDirectory %>/styles/',
+				ext: '.css'
+
 		# Minifies index.html
 		# Extra white space and comments will be removed
 		# Content within <pre /> tags will be left unchanged
@@ -463,6 +473,15 @@ module.exports = (grunt) ->
 				options:
 					livereload: true
 					nospawn: true
+			stylus:
+				files: 'src/styles/**/*.styl'
+				tasks: [
+					'stylus:dev'
+					'copy:dev'
+				]
+				options:
+					livereload: true
+					nospawn: true
 			spaHtml:
 				files: 'src/index.html'
 				tasks: [
@@ -550,6 +569,12 @@ module.exports = (grunt) ->
 				path.join(dirname, 'styles.css')
 			]
 
+		if key is 'stylus'
+			copyDevConfig.src = [
+				path.join(dirname, "#{basename}.css")
+				path.join(dirname, 'styles.css')
+			]
+
 		grunt.config ['copy', 'dev'], copyDevConfig
 
 	# Compiles the app with non-optimized build settings
@@ -565,7 +590,7 @@ module.exports = (grunt) ->
 		'shimmer:dev'
 		'ngClassify'
 		'coffee:app'
-		'less'
+		'stylus:dev' ## 'less'
 		'template:indexDev'
 		'copy:dev'
 	]
@@ -609,7 +634,7 @@ module.exports = (grunt) ->
 		'coffee:app'
 		'imagemin'
 		'hash:images'
-		'less'
+		'stylus' ## 'less'
 		'requirejs'
 		'uglify'
 		'hash:scripts'
