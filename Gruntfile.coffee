@@ -100,16 +100,15 @@ module.exports = (grunt) ->
 					base: '<%= settings.distDirectory %>'
 					hostname: 'localhost'
 					livereload: true
-					middleware: (connect, options) ->
+					middleware: (connect, options, middlewares) ->
 						express = require 'express'
-						bodyParser = require 'body-parser'
 						routes = require './routes'
 						app = express()
 
-						app.use bodyParser()
 						app.use express.static String(options.base)
 						routes app, options
-						[connect(app)]
+						middlewares.unshift app
+						middlewares
 					open: true
 					port: 0
 
