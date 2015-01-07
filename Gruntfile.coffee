@@ -64,7 +64,7 @@ module.exports = (grunt) ->
 					ext: '.js'
 				]
 				options:
-					sourceMap: true
+					sourceMap: false
 			# Used for those that desire plain old JavaScript
 			jslove:
 				files: [
