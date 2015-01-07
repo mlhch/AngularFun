@@ -109,8 +109,8 @@ module.exports = (grunt) ->
 						routes app, options
 						middlewares.unshift app
 						middlewares
-					open: true
-					port: 0
+					open: false
+					port: 9000
 
 		# Copies directories and files from one location to another
 		copy:
