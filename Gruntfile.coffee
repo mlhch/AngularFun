@@ -415,6 +415,7 @@ module.exports = (grunt) ->
 					'src/scripts/**/*.js'
 					'src/styles/**/*.css'
 					'src/**/*.html'
+					'!src/index.html' ## in order for watch:spaHtml
 				]
 				tasks: [
 					'copy:app'
